@@ -19,38 +19,41 @@ Read more about [OpenWrt initial settings](https://github.com/Ramtiiin/Install-P
 
 2. Update the package list:
    ```sh
-   opkg update
+   apk update
 
 3. Remove the default dnsmasq and install dnsmasq-full:
    ```sh
-   opkg remove dnsmasq
-   opkg install dnsmasq-full
+   apk del dnsmasq
+   apk add dnsmasq-full
 
 4. Install required kernel modules:
    ```sh
-   opkg install kmod-nft-tproxy kmod-nft-socket
+   apk add kmod-nft-tproxy kmod-nft-socket
    
 5. Download and add the Passwall public key:
    ```sh
-   wget -O passwall.pub https://master.dl.sourceforge.net/project/openwrt-passwall-build/passwall.pub
-   opkg-key add passwall.pub
+   wget -O /etc/apk/keys/passwall.pub https://master.dl.sourceforge.net/project/openwrt-passwall-build/passwall.pub
 
 6. Set up custom feeds for Passwall:
 ```sh
-   read release arch << EOF
-   $(. /etc/openwrt_release ; echo ${DISTRIB_RELEASE%.*} $DISTRIB_ARCH)
-   EOF
+   read arch << EOF
+$(. /etc/openwrt_release ; echo $DISTRIB_ARCH)
+EOF
 
-   for feed in passwall_packages passwall2; do
-     echo "src/gz $feed https://master.dl.sourceforge.net/project/openwrt-passwall-build/releases/packages-$release/$arch/$feed" >> /etc/opkg/customfeeds.conf
-   done
+mkdir -p /etc/apk/repositories.d
+
+{
+  for feed in passwall_packages passwall2; do
+    echo "https://master.dl.sourceforge.net/project/openwrt-passwall-build/snapshots/packages/$arch/$feed/packages.adb"
+  done
+} > /etc/apk/repositories.d/passwall.list
 ```
 
 7. Update the package list again to include Passwall feeds:
    ```sh
-   opkg update
+   apk update --allow-untrusted
 
 8. Install luci-app-passwall2 and v2ray-geosite-ir:
    ```sh
-   opkg install luci-app-passwall2 v2ray-geosite-ir
+   apk add luci-app-passwall2 v2ray-geosite-ir --allow-untrusted
    
