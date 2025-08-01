@@ -1,5 +1,5 @@
-# Install PassWall2 on OpenWrt router
-[فارسی](https://github.com/Ramtiiin/iran-ip/blob/main/README.fa.md)
+# How to Install PassWall2 on OpenWrt Snapshot Builds
+[فارسی](https://github.com/mam4dali/install-passwall2-openwrt-snapshots/blob/main/README.fa.md)
 
 ⚠️ This configuration has been tested on a [Google WiFi Router](https://support.google.com/googlenest/answer/7168315?hl=en) running OpenWrt version OpenWrt 23.05.2 r23630-842932a63d stable. Ensure that your router has **at least 128MB of storage** before executing these commands. ⚠️
 
